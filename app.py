@@ -225,27 +225,48 @@ with tab2:
         "Haz una pregunta"
     )
 
-    if query:
+    if st.button(
+        "🔍 Enviar",
+        key="search_button"
+    ):
 
-        results = semantic_search(query)
+        if not query.strip():
 
-        if results:
+            st.warning(
+                "Escribe una pregunta."
+            )
 
-            for r in results:
+        else:
 
-                st.markdown(
-                    f"### {r['doc']['title']}"
+            results = semantic_search(query)
+
+            if results:
+
+                st.success(
+                    f"Se encontraron {len(results)} resultados."
                 )
 
-                st.caption(
-                    f"Relevancia: {r['score']:.3f}"
-                )
+                for r in results:
 
-                st.write(
-                    r["doc"]["text"][:800]
-                )
+                    st.markdown(
+                        f"### {r['doc']['title']}"
+                    )
 
-                st.divider()
+                    st.caption(
+                        f"Relevancia: {r['score']:.3f}"
+                    )
+
+                    st.write(
+                        r["doc"]["text"][:800]
+                    )
+
+                    st.divider()
+
+            else:
+
+                st.warning(
+                    "No se encontraron resultados."
+                )
 
 # =====================================================
 # TAB 3
